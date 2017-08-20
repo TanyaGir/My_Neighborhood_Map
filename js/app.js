@@ -1,17 +1,19 @@
 // first goal: display a list with location names using Knockout.js (add the map later)
-
-var ViewModel = function(){
-  var self = this;
-  self.locations=  [
+var locations=  [
           {name: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
           {name: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
           {name: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
           {name: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
           {name: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
           {name: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
-        ]; 
+        ];
+
+
+var ViewModel = function(){
+  var self = this;
+      this.markers = ko.observableArray(locations);
 	};
-ko.applyBindings(new ViewModel());
+
 
 // hard coded Array of location objects
 // https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
@@ -19,14 +21,63 @@ ko.applyBindings(new ViewModel());
 
 // initMap function (later)
       var map;
+      // Create a new blank array for all the listing markers.
+      var markers = [];
       function initMap() {
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 40.7413549, lng: -73.9980244},
           zoom: 13
         });
-      }
 
+        var largeInfowindow = new google.maps.InfoWindow();
+        var bounds = new google.maps.LatLngBounds();
+        // The following group uses the location array to create an array of markers on initialize.
+        for (var i = 0; i < locations.length; i++) {
+          // Get the position from the location array.
+          var position = locations[i].location;
+          var title = locations[i].name;
+          // Create a marker per location, and put into markers array.
+
+          
+          var marker = new google.maps.Marker({
+            map: map,
+            position: position,
+            title: title,
+            animation: google.maps.Animation.DROP,
+            id: i
+          });
+          // Push the marker to our array of markers.
+          locations[i].marker = marker
+          // Create an onclick event to open an infowindow at each marker.
+          marker.addListener('click', function() {
+            populateInfoWindow(this, largeInfowindow);
+          });
+          bounds.extend(marker.position);
+        }
+        // Extend the boundaries of the map for each marker
+        map.fitBounds(bounds);
+
+        ko.applyBindings(new ViewModel());
+      };
+
+    
+      // This function populates the infowindow when the marker is clicked. We'll only allow
+      // one infowindow which will open at the marker that is clicked, and populate based
+      // on that markers position.
+      function populateInfoWindow(marker, infowindow) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        console.log(marker)
+        if (infowindow.marker != marker) {
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick',function(){
+            infowindow.setMarker = null;
+          });
+        }
+      } 
 // https://developers.google.com/maps/documentation/javascript/examples/map-simple
 
 // Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
