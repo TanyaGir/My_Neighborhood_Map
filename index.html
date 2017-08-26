@@ -12,15 +12,14 @@
     <!-- http://knockoutjs.com/documentation/foreach-binding.html -->
     <div class="container">
       <div class="options-box">
-        <div>
-          <input id="show-listings" type="button" value="Show Listings">
-          <input id="hide-listings" type="button" value="Hide Listings">
         <p>
          <h1>Locations</h1>
          Filter: <input data-bind="value:filter"></input>
         </p>
         <ul data-bind="foreach: locations">
-        <li data-bind="text: name"></li>
+         <!--http://knockoutjs.com/documentation/binding-context.html-->
+         <!-- http://knockoutjs.com/documentation/click-binding.html -->
+         <li data-bind="text: name, click: $root.doSomething"></li>
         </ul>
 
     </div>
