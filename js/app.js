@@ -1,4 +1,6 @@
 // first goal: display a list with location names using Knockout.js (add the map later)
+var infowindow;
+
 var locations=  [
           {name: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
           {name: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
@@ -16,9 +18,9 @@ var ViewModel = function(){
       this.filter = ko.observable("Bert");
 
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
-      this.doSomething = function(locations) {
+      this.doSomething = function(location) {
         //console.log("click");
-        console.log(locations);
+      populateInfoWindow(location.marker)
         // use location.marker to open the marker's info window
       };
   };
@@ -39,7 +41,7 @@ var ViewModel = function(){
           mapTypeControl: false
         });
 
-        var largeInfowindow = new google.maps.InfoWindow();
+        infowindow = new google.maps.InfoWindow();
         var bounds = new google.maps.LatLngBounds();
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < locations.length; i++) {
@@ -58,14 +60,11 @@ var ViewModel = function(){
           // Push the marker to our array of markers.
           locations[i].marker = marker
           // Create an onclick event to open an infowindow at each marker.
-          marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
-          });
          // Push the marker to our array of markers.
           markers.push(marker);
           // Create an onclick event to open an infowindow at each marker.
           marker.addListener('click', function() {
-            populateInfoWindow(this, largeInfowindow);
+            populateInfoWindow(this);
           });
         }
       }
@@ -73,7 +72,7 @@ var ViewModel = function(){
       // This function populates the infowindow when the marker is clicked. We'll only allow
       // one infowindow which will open at the marker that is clicked, and populate based
       // on that markers position.
-      function populateInfoWindow(marker, infowindow) {
+      function populateInfoWindow(marker) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
           infowindow.marker = marker;
