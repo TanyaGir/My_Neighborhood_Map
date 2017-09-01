@@ -15,12 +15,39 @@ var ViewModel = function(){
   var self = this;
       this.locations = ko.observableArray(locations);
       this.markers = ko.observableArray(locations);
-      this.filter = ko.observable("Bert");
-
+      this.address = ko.observable("");
+      this.filter = function() {
+        // Initialize the geocoder.
+        var geocoder = new google.maps.Geocoder();
+        // Get the address or place that the user entered.
+        var address = this.address();
+        // Make sure the address isn't blank.
+        if (address == '') {
+          window.alert('You must enter an area, or address.');
+        } else {
+          // Geocode the address/area entered to get the center. Then, center the map
+          // on it and zoom in
+          geocoder.geocode(
+            { address: address,
+              componentRestrictions: {locality: 'New York'}
+            }, function(results, status) {
+              if (status == google.maps.GeocoderStatus.OK) {
+                map.setCenter(results[0].geometry.location);
+                map.setZoom(15);
+              } else {
+                window.alert('We could not find that location - try entering a more' +
+                    ' specific place.');
+              }
+            });
+        }
+      }
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
-      this.doSomething = function(location) {
+      this.doSomething = function(clickedLocation) {
         //console.log("click");
-      populateInfoWindow(location.marker)
+      populateInfoWindow(clickedLocation.marker)
+
+      console.log(clickedLocation);
+
         // use location.marker to open the marker's info window
       };
   };

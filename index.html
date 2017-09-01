@@ -13,7 +13,8 @@
     <div class="container">
       <div class="options-box">
          <p><h1>Locations</h1></p>
-         <p>Filter: <input data-bind="value: filter" /></p>
+         <p>Address: <input class="search-box" id="search-box" placeholder = "Search..." data-bind="value: address" />
+         <button data-bind="click: filter">Filter</button></p>
         <ul data-bind="foreach: locations">
          <!--http://knockoutjs.com/documentation/binding-context.html-->
          <!-- http://knockoutjs.com/documentation/click-binding.html -->

@@ -10,7 +10,7 @@ html,
         position: relative;
       }
       input {
-        font-size: 12px;
+        width: 50%;
       }
       h1 {
         color: #525454;
