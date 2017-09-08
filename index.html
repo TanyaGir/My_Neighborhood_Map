@@ -14,12 +14,11 @@
 
          <p><h1>Locations</h1></p>
          <form>
-         <input placeholder="Search.." type="search" data-bind="value: address, valueUpdate: 'keyup'" autocomplete="off">
-         <button type = "submit" data-bind="foreach: $root.search">FILTER</button>
-        </form>
+         <input placeholder="Search.." type="search" data-bind="textInput: address">
+         </form>
          
-        <ul data-bind="foreach: locations">
-            <li data-bind="text: name, click: $root.doSomething"></li>
+        <ul data-bind="foreach: myLocations">
+            <li data-bind="text: name, visible: visible, click: $root.doSomething"></li>
         </ul>
 
         </div>
@@ -28,7 +27,7 @@
 
   <script src='js/lib/knockout-3.2.0.js'></script>
   <script src='js/lib/jquery.min.js'></script>
-    <script src="js/app.js"></script>
+  <script src="js/app.js"></script>
 
   <!-- Load google maps API -->
     <script async defer

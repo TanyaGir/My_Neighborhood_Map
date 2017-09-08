@@ -13,10 +13,22 @@ var locations=  [
           {name: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
         ];
 
+var Location = function(data) {
+  this.name = data.name;
+  this.visible = ko.observable(true)
+};
+
 
 var ViewModel = function(){
   var self = this;
-      this.locations = ko.observableArray(locations);
+
+     this.myLocations = ko.observableArray();
+
+      locations.forEach(function(location) {
+        self.myLocations.push(new Location(location));
+      });
+
+
       this.markers = ko.observableArray(locations);
       this.address = ko.observable("");
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
@@ -29,17 +41,20 @@ var ViewModel = function(){
       };
       this.search = function(value) {
     // remove all the current locations, which removes them from the view
-        viewModel.locations.removeAll();
+      if (value) {
+        //viewModel.myLocations.removeAll();
 
-    for(var x in locations) {
-      if(locations[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
-        viewModel.locations.push(locations[x]);
+      //this.mylocations().forEach
+      for(var x in locations) {  
+        if(locations[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+          self.myLocations()[x].visible(true);
+        } else {
+           self.myLocations()[x].visible(false);
+        }
       }
     }
   }
 };
-
-
 
       function initMap() {
         // Constructor creates a new map - only center and zoom are required.
