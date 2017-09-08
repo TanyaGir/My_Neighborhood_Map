@@ -9,30 +9,30 @@
 </head>
 <body>
     <!-- List view showing location names -->
-    <!-- http://knockoutjs.com/documentation/foreach-binding.html -->
     <div class="container">
-      <div class="options-box">
+        <div class="options-box">
+
          <p><h1>Locations</h1></p>
-         <p>Address: <input class="search-box" id="search-box" placeholder = "Search..." data-bind="value: address" />
-         <button data-bind="click: filter">Filter</button></p>
+         <form>
+         <input placeholder="Search.." type="search" data-bind="value: address, valueUpdate: 'keyup'" autocomplete="off">
+         <button type = "submit" data-bind="foreach: $root.search">FILTER</button>
+        </form>
+         
         <ul data-bind="foreach: locations">
-         <!--http://knockoutjs.com/documentation/binding-context.html-->
-         <!-- http://knockoutjs.com/documentation/click-binding.html -->
-         <li data-bind="text: name, click: $root.doSomething"></li>
+            <li data-bind="text: name, click: $root.doSomething"></li>
         </ul>
 
+        </div>
     </div>
-    </div>
-    <!-- List view showing location names -->
-    <!-- http://knockoutjs.com/documentation/foreach-binding.html -->
     <div id="map"></div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+  <script src='js/lib/knockout-3.2.0.js'></script>
+  <script src='js/lib/jquery.min.js'></script>
     <script src="js/app.js"></script>
-  <!-- Load google maps API
-     https://developers.google.com/maps/documentation/javascript/examples/map-simple -->
+
+  <!-- Load google maps API -->
     <script async defer
-        src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyAwGjf_6JI5P9wGpb6ok9mB3Ni_0UJjJJY&v=3&callback=initMap">
-    </script>
+         src="https://maps.googleapis.com/maps/api/js?&key=AIzaSyAwGjf_6JI5P9wGpb6ok9mB3Ni_0UJjJJY&v=3&callback=initMap">
+     </script>
   </body>
 </html>

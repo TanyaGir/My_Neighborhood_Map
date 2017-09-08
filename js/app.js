@@ -1,5 +1,8 @@
-// first goal: display a list with location names using Knockout.js (add the map later)
+// Global variables
+
 var infowindow;
+var map;
+var markers = [];
 
 var locations=  [
           {name: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
@@ -16,50 +19,28 @@ var ViewModel = function(){
       this.locations = ko.observableArray(locations);
       this.markers = ko.observableArray(locations);
       this.address = ko.observable("");
-      this.filter = function() {
-        // Initialize the geocoder.
-        var geocoder = new google.maps.Geocoder();
-        // Get the address or place that the user entered.
-        var address = this.address();
-        // Make sure the address isn't blank.
-        if (address == '') {
-          window.alert('You must enter an area, or address.');
-        } else {
-          // Geocode the address/area entered to get the center. Then, center the map
-          // on it and zoom in
-          geocoder.geocode(
-            { address: address,
-              componentRestrictions: {locality: 'New York'}
-            }, function(results, status) {
-              if (status == google.maps.GeocoderStatus.OK) {
-                map.setCenter(results[0].geometry.location);
-                map.setZoom(15);
-              } else {
-                window.alert('We could not find that location - try entering a more' +
-                    ' specific place.');
-              }
-            });
-        }
-      }
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
       this.doSomething = function(clickedLocation) {
         //console.log("click");
-      populateInfoWindow(clickedLocation.marker)
+      populateInfoWindow(clickedLocation.marker);
 
       console.log(clickedLocation);
-
         // use location.marker to open the marker's info window
       };
-  };
+      this.search = function(value) {
+    // remove all the current locations, which removes them from the view
+        viewModel.locations.removeAll();
 
-// hard coded Array of location objects
-// https://github.com/udacity/ud864/blob/master/Project_Code_5_BeingStylish.html#L150
-        
+    for(var x in locations) {
+      if(locations[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+        viewModel.locations.push(locations[x]);
+      }
+    }
+  }
+};
 
-// initMap function (later)
-      var map;
-      // Create a new blank array for all the listing markers.
-      var markers = [];
+
+
       function initMap() {
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
@@ -95,10 +76,6 @@ var ViewModel = function(){
           });
         }
       }
-    
-      // This function populates the infowindow when the marker is clicked. We'll only allow
-      // one infowindow which will open at the marker that is clicked, and populate based
-      // on that markers position.
       function populateInfoWindow(marker) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
@@ -114,24 +91,26 @@ var ViewModel = function(){
 
 var viewModel = new ViewModel();
 
+viewModel.address.subscribe(viewModel.search);
+
 ko.applyBindings(viewModel);
-// https://developers.google.com/maps/documentation/javascript/examples/map-simple
 
-// Location constructor similiar to the Cat constructor form the JavaScript Design Patterns course (optional)
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+    var string = msg.toLowerCase();
+    var substring = "script error";
+    if (string.indexOf(substring) > -1){
+        alert('Script Error: See Browser Console for Detail');
+    } else {
+        var message = [
+            'Message: ' + msg,
+            'URL: ' + url,
+            'Line: ' + lineNo,
+            'Column: ' + columnNo,
+            'Error object: ' + JSON.stringify(error)
+        ].join(' - ');
 
-// ViewModel constructor
-// http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models
-// In the ViewmModel create an observableArray with location objects
-// this.locations = ko.observableArray(locations); // if you do not want to use a Location constructor
-// Separating Out the Model video lesson:
-// https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34284402380923
-// Adding More Cats video lesson
-// https://classroom.udacity.com/nanodegrees/nd001/parts/e87c34bf-a9c0-415f-b007-c2c2d7eead73/modules/271165859175461/lessons/3406489055/concepts/34648186930923
+        alert(message);
+    }
 
-// Instantiate the ViewModel
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
-// The difference between defining the ViewModel as a function expression or defining the viewModel as an object literal:
-// https://discussions.udacity.com/t/text-not-updating-with-search-box/182886/6
-
-// Apply the bindings aka activate KO
-// http://knockoutjs.com/documentation/observables.html#mvvm-and-view-models#activating-knockout
+    return false;
+};
