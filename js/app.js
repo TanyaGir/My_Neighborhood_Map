@@ -5,17 +5,32 @@ var map;
 var markers = [];
 
 var locations=  [
-          {name: 'Park Ave Penthouse', location: {lat: 40.7713024, lng: -73.9632393}},
-          {name: 'Chelsea Loft', location: {lat: 40.7444883, lng: -73.9949465}},
-          {name: 'Union Square Open Floor Plan', location: {lat: 40.7347062, lng: -73.9895759}},
-          {name: 'East Village Hip Studio', location: {lat: 40.7281777, lng: -73.984377}},
-          {name: 'TriBeCa Artsy Bachelor Pad', location: {lat: 40.7195264, lng: -74.0089934}},
-          {name: 'Chinatown Homey Space', location: {lat: 40.7180628, lng: -73.9961237}}
-        ];
+          {
+          name: 'Park Ave Penthouse',
+          location: {lat: 40.7713024, lng: -73.9632393}
+          },
+          {
+          name: 'Chelsea Loft',
+          location: {lat: 40.7444883, lng: -73.9949465}
+          },
+          {
+          name: 'Union Square Open Floor Plan',
+          location: {lat: 40.7347062, lng: -73.9895759}
+          },
+          {
+          name: 'East Village Hip Studio',
+          location: {lat: 40.7281777, lng: -73.984377}},
+          {
+          name: 'TriBeCa Artsy Bachelor Pad', 
+          location: {lat: 40.7195264, lng: -74.0089934}},
+          {
+          name: 'Chinatown Homey Space', 
+          location: {lat: 40.7180628, lng: -73.9961237}
+        }];
 
 var Location = function(data) {
   this.name = data.name;
-  this.visible = ko.observable(true)
+  this.visible = ko.observable(true);
 };
 
 
@@ -28,13 +43,12 @@ var ViewModel = function(){
         self.myLocations.push(new Location(location));
       });
 
-
       this.markers = ko.observableArray(locations);
       this.address = ko.observable("");
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
       this.doSomething = function(clickedLocation) {
         //console.log("click");
-      populateInfoWindow(clickedLocation.marker);
+      populateInfoWindow(clickedLocation.markers);
 
       console.log(clickedLocation);
         // use location.marker to open the marker's info window
@@ -53,7 +67,7 @@ var ViewModel = function(){
         }
       }
     }
-  }
+  };
 };
 
       function initMap() {
@@ -81,7 +95,7 @@ var ViewModel = function(){
             id: i
           });
           // Push the marker to our array of markers.
-          locations[i].marker = marker
+          locations[i].marker = marker;
           // Create an onclick event to open an infowindow at each marker.
          // Push the marker to our array of markers.
           markers.push(marker);
