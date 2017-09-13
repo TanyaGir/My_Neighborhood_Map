@@ -19,8 +19,16 @@
          </form>
          
         <ul data-bind="foreach: myLocations">
-            <li data-bind="text: name, visible: visible, click: $root.doSomething"></li>
+            <li data-bind="text: name, visible: visible, click: $root.doSomething" ></li>
         </ul>
+
+         <div data-bind="with:currentlocation">
+
+          <h2 data-bind="text: name"></h2>
+          <span data-bind="value: location"></span>
+
+
+        </div>
 
         </div>
     </div>
