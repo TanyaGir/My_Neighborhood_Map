@@ -1,4 +1,5 @@
 html,
+
       body {
         font-family: Arial, sans-serif;
         height: 100%;
@@ -18,10 +19,7 @@ html,
         margin: 0 0 10px 0;
         text-align: center;
       }
-      #hide-listings,
-      #show-listings {
-        width: 48%;
-      }
+
 
       hr {
         background: #D0D7D9;
@@ -62,17 +60,5 @@ html,
         font-size: 12px;
       }
 
-      #toggle-drawing {
-        width: 27%;
-        position: relative;
-        margin-left: 10px;
-      }
 
-      #zoom-to-area-text {
-        position: relative;
-        width: 70%;
-      }
 
-      #zoom-to-area {
-        width: 24%;
-      }

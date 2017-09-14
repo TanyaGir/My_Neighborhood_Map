@@ -38,6 +38,7 @@ var Location = function(data) {
 
 var ViewModel = function(){
   var self = this;
+  self.markers = [];
 
     this.myLocations = ko.observableArray([]);
 
@@ -54,9 +55,9 @@ var ViewModel = function(){
     this.doSomething = function(clickedLocation) {
         //console.log("click");
         self.currentlocation(clickedLocation);
-        self.populateInfoWindow(clickedLocation);
-        console.log(clickedLocation);
-        console.log(this.populateInfoWindow);
+        self.populateInfoWindow(clickedLocation.marker);
+        //console.log(clickedLocation);
+       // console.log(this.populateInfoWindow);
         // use location.marker to open the marker's info window
       };
     this.search = function(value) {
@@ -64,6 +65,8 @@ var ViewModel = function(){
       if (value) {
         //viewModel.myLocations.removeAll()
       //this.mylocations().forEach
+
+      // filter the markers with the Marker setVisible method
       for(var x in locations) {  
         if(locations[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
           self.myLocations()[x].visible(true);
@@ -73,20 +76,22 @@ var ViewModel = function(){
       }
     }
   };
-      this.markers = [];
 
       this.initMap = function() {
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 40.7413549, lng: -73.9980244},
           zoom: 13,
-          mapTypeControl: false
+           mapTypeControl: true,
+           mapTypeControlOptions: {
+          style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+          }
         });
 
         infowindow = new google.maps.InfoWindow();
         var bounds = new google.maps.LatLngBounds();
 
-        self.myLocations = locations;
+       //self.myLocations = locations;
 
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < locations.length; i++) {
@@ -105,9 +110,10 @@ var ViewModel = function(){
 
           // Push the marker to our array of markers. 
           locations[i].marker = marker;
+          self.myLocations()[i].marker = marker;
           // Create an onclick event to open an infowindow at each marker.
          // Push the marker to our array of markers.
-          markers.push(marker);
+         // markers.push(marker);
           // Create an onclick event to open an infowindow at each marker.
           marker.addListener('click', function() {
             self.populateInfoWindow(this);
@@ -140,7 +146,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
     var string = msg.toLowerCase();
     var substring = "script error";
     if (string.indexOf(substring) > -1){
-        alert('Script Error: See Browser Console for Detail');
+       // alert('Script Error: See Browser Console for Detail');
     } else {
         var message = [
             'Message: ' + msg,
