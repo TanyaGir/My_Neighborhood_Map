@@ -47,7 +47,24 @@ var ViewModel = function(){
     this.currentlocation = ko.observable(this.myLocations() [0]);
 
     this.markers = ko.observableArray(locations);
-    this.address = ko.observable("");
+    this.filter = ko.observable("");
+/* ????????
+    this.filteredItems = ko.computed(function() {
+    var filter = self.filter().toLowerCase();
+    if (!filter) {
+      ko.utils.arrayForEach(self.myLocations(), function (item) {
+        item.marker.setVisible(true);
+      });
+      return self.myLocations();
+    } else {
+      return ko.utils.arrayFilter(self.myLocations(), function(item) {
+        // set all markers visible (false)
+        var result = (item.title.toLowerCase().search(filter) >= 0);
+        item.marker.setVisible(result);
+        return result;
+      });
+    }
+  });  ????????*/
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
   /*  this.doSomething = function(clickedLocation) {
         //console.log("click");
@@ -148,7 +165,7 @@ var ViewModel = function(){
 
 var viewModel = new ViewModel();
 
-viewModel.address.subscribe(viewModel.search);
+viewModel.filter.subscribe(viewModel.search);
 
 ko.applyBindings(viewModel);
 
