@@ -46,21 +46,23 @@ var ViewModel = function(){
       });
     this.currentlocation = ko.observable(this.myLocations() [0]);
 
+
+
     this.markers = ko.observableArray(locations);
     this.address = ko.observable("");
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
     this.doSomething = function(clickedLocation) {
         //console.log("click");
         self.currentlocation(clickedLocation);
-
+        self.populateInfoWindow(clickedLocation);
         console.log(clickedLocation);
+        console.log(this.populateInfoWindow);
         // use location.marker to open the marker's info window
       };
     this.search = function(value) {
     // remove all the current locations, which removes them from the view
       if (value) {
         //viewModel.myLocations.removeAll()
-
       //this.mylocations().forEach
       for(var x in locations) {  
         if(locations[x].name.toLowerCase().indexOf(value.toLowerCase()) >= 0) {
@@ -71,22 +73,7 @@ var ViewModel = function(){
       }
     }
   };
-};
       this.markers = [];
-
-      this.populateInfoWindow = function(marker) {
-        // Check to make sure the infowindow is not already opened on this marker.
-        if (infowindow.marker != marker) {
-          infowindow.marker = marker;
-          infowindow.setContent('<div>' + marker.title + '</div>');
-          infowindow.open(map, marker);
-          // Make sure the marker property is cleared if the infowindow is closed.
-          infowindow.addListener('closeclick', function() {
-            infowindow.marker = null;
-          });
-        }
-      };
-
 
       this.initMap = function() {
         // Constructor creates a new map - only center and zoom are required.
@@ -100,7 +87,7 @@ var ViewModel = function(){
         var bounds = new google.maps.LatLngBounds();
 
         self.myLocations = locations;
-        //console.log(locations);
+
         // The following group uses the location array to create an array of markers on initialize.
         for (var i = 0; i < locations.length; i++) {
           // Get the position from the location array.
@@ -115,6 +102,7 @@ var ViewModel = function(){
             animation: google.maps.Animation.DROP,
             id: i
           });
+
           // Push the marker to our array of markers. 
           locations[i].marker = marker;
           // Create an onclick event to open an infowindow at each marker.
@@ -126,7 +114,20 @@ var ViewModel = function(){
           });
         }
       };
-      console.log(self.myLocations);
+          this.populateInfoWindow = function(marker) {
+        // Check to make sure the infowindow is not already opened on this marker.
+        if (infowindow.marker != marker) {
+          infowindow.marker = marker;
+          infowindow.setContent('<div>' + marker.title + '</div>');
+          infowindow.open(map, marker);
+          // Make sure the marker property is cleared if the infowindow is closed.
+          infowindow.addListener('closeclick', function() {
+            infowindow.marker = null;
+          });
+        }
+      };
+};
+      //console.log(self.myLocations);
     
 
 var viewModel = new ViewModel();
