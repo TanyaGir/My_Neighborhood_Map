@@ -38,7 +38,6 @@ var Location = function(data) {
 
 var ViewModel = function(){
   var self = this;
-  self.markers = [];
 
     this.myLocations = ko.observableArray([]);
 
@@ -47,19 +46,17 @@ var ViewModel = function(){
       });
     this.currentlocation = ko.observable(this.myLocations() [0]);
 
-
-
     this.markers = ko.observableArray(locations);
     this.address = ko.observable("");
       // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
-    this.doSomething = function(clickedLocation) {
+  /*  this.doSomething = function(clickedLocation) {
         //console.log("click");
         self.currentlocation(clickedLocation);
         self.populateInfoWindow(clickedLocation.marker);
         //console.log(clickedLocation);
        // console.log(this.populateInfoWindow);
         // use location.marker to open the marker's info window
-      };
+      }; */
     this.search = function(value) {
     // remove all the current locations, which removes them from the view
       if (value) {
@@ -76,16 +73,14 @@ var ViewModel = function(){
       }
     }
   };
+      this.markers = [];
 
       this.initMap = function() {
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 40.7413549, lng: -73.9980244},
           zoom: 13,
-           mapTypeControl: true,
-           mapTypeControlOptions: {
-          style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-          }
+          mapTypeControl: false
         });
 
         infowindow = new google.maps.InfoWindow();
@@ -120,7 +115,7 @@ var ViewModel = function(){
           });
         }
       };
-          this.populateInfoWindow = function(marker) {
+        this.populateInfoWindow = function(marker) {
         // Check to make sure the infowindow is not already opened on this marker.
         if (infowindow.marker != marker) {
           infowindow.marker = marker;
@@ -132,6 +127,21 @@ var ViewModel = function(){
           });
         }
       };
+            //Click on item in list view
+        this.listViewClick = function(place) {
+          self.currentlocation(place);
+          self.populateInfoWindow(place.marker);;
+            if (place.name) {
+              //map.setZoom(15); //Zoom map view
+              //map.panTo(place.latlng); // Pan to correct marker when list view item is clicked
+              place.marker.setAnimation(google.maps.Animation.BOUNCE); // Bounce marker when list view item is clicked
+              //infowindow.open(map, place.marker); // Open info window on correct marker when list item is clicked
+        }
+          setTimeout(function() {
+            place.marker.setAnimation(null); // End animation on marker after 2 seconds
+        }, 2000);
+      };
+
 };
       //console.log(self.myLocations);
     
