@@ -24,13 +24,14 @@
 
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
-            <ul class="sidebar-nav">
+
+            <ul class="sidebar-nav">          
 
          <p><h1>Locations</h1></p>
          <form>
          <input placeholder="Search..." type="search" data-bind="textInput: filter">
          </form>
-
+<hr>
         <ul data-bind="foreach: myLocations">
             <li data-bind="text: name, visible: visible, click: $root.listViewClick" ></li>
         </ul>
@@ -38,17 +39,17 @@
         </div>
         <!-- /#sidebar-wrapper -->
 
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <div class="container-fluid">
-
-        <div id="map"> </div>
-          <a href="#menu-toggle" class="btn btn-secondary"   id="menu-toggle"><div></div>
+        <!-- Page Content -->           
+        <div id="page-content-wrapper">         
+          <div class="container-fluid">     
+            <div id="map"></div>
+          <a href="#menu-toggle" class="btn btn-secondary" id="menu-toggle"><div></div>
                   <div></div>
                   <div></div></a>
-                
+     
             </div>
         </div>
+        
         <!-- /#page-content-wrapper -->
 
     <!-- /#wrapper -->
