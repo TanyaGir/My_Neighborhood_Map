@@ -95,8 +95,9 @@ var ViewModel = function() {
         }
       }
     } else {
-      for ( var x in locations ) {
-        self.myLocations()[ x ].visible( true );
+      for ( var y in locations ) {
+        if ( locations[ y ].name.toLowerCase().indexOf( value.toLowerCase() ) >= 0 )
+        self.myLocations()[ y ].visible( true );
       }
     }
   };
@@ -111,7 +112,6 @@ var ViewModel = function() {
       mapTypeControl: false
     } );
     infowindow = new google.maps.InfoWindow();
-    var bounds = new google.maps.LatLngBounds();
     //self.myLocations = locations;
     // The following group uses the location array to create an array of markers on initialize.
     for ( var i = 0; i < locations.length; i++ ) {
@@ -119,7 +119,7 @@ var ViewModel = function() {
       var position = locations[ i ].location;
       var title = locations[ i ].name;
       // Create a marker per location, and put into markers array.
-      var marker = new google.maps.Marker( {
+    marker = new google.maps.Marker( {
         map: map,
         position: position,
         title: title,
@@ -132,11 +132,8 @@ var ViewModel = function() {
       // Create an onclick event to open an infowindow at each marker.
       // Push the marker to our array of markers.
       // markers.push(marker);
-      // Create an onclick event to open an infowindow at each marker.
-      marker.addListener( 'click', function() {
-        self.populateInfoWindow( this );
-      } );
-    }
+
+  }
   };
   this.populateInfoWindow = function( marker ) {
     // Check to make sure the infowindow is not already opened on this marker.
@@ -171,12 +168,12 @@ viewModel.filter.subscribe( viewModel.search );
 ko.applyBindings( viewModel );
 
 function loadData() {
-  var $body = $( 'body' );
+
   var $wikiElem = $( '#wikipedia-links' );
   // clear out old data before new request
   $wikiElem.text( "" );
   var streetStr = $( '#street' ).val();
-  var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + cityStr + '&format=json&callback=wikiCallback';
+  var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + streetStr + '&format=json&callback=wikiCallback';
   var wikiRequestTimeout = setTimeout( function() {
     $wikiElem.text( "failed to get wikipedia resources" );
   }, 8000 );
