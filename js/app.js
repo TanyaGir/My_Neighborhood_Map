@@ -53,6 +53,7 @@ var ViewModel = function() {
   this.currentlocation = ko.observable( this.myLocations()[ 0 ] );
   this.markers = ko.observableArray( locations );
   this.filter = ko.observable( "" );
+  this.wikipedia = ko.observableArray([]);
   /*
        this.filteredItems = ko.computed(function() {
       var filter = self.filter().toLowerCase();
@@ -151,6 +152,7 @@ var ViewModel = function() {
   this.listViewClick = function( place ) {
     self.currentlocation( place );
     self.populateInfoWindow( place.marker );
+    loadData(place)
     if ( place.name ) {
       //map.setZoom(15); //Zoom map view
       //map.panTo(place.latlng); // Pan to correct marker when list view item is clicked
@@ -167,13 +169,9 @@ var viewModel = new ViewModel();
 viewModel.filter.subscribe( viewModel.search );
 ko.applyBindings( viewModel );
 
-function loadData() {
-
-  var $wikiElem = $( '#wikipedia-links' );
-  // clear out old data before new request
-  $wikiElem.text( "" );
-  var streetStr = $( '#street' ).val();
-  var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + streetStr + '&format=json&callback=wikiCallback';
+function loadData(place) {
+  
+  var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + 'Dam Square' + '&format=json&callback=wikiCallback';
   var wikiRequestTimeout = setTimeout( function() {
     $wikiElem.text( "failed to get wikipedia resources" );
   }, 8000 );
@@ -181,11 +179,13 @@ function loadData() {
     url: wikiUrl,
     dataType: "jsonp", // jsonp: "callback",
     success: function( response ) {
+      console.log(response);
       var articleList = response[ 1 ];
       for ( var i = 0; i < articleList.length; i++ ) {
         articleStr = articleList[ i ];
         var url = 'https://en.wikipedia.org/wiki/' + articleStr;
-        $wikiElem.append( '<li><a href="' + url + '">' + articleStr + '</a></li>' );
+        //$wikiElem.append( '<li><a href="' + url + '">' + articleStr + '</a></li>' );
+        viewModel.wikipedia.push(url);
       }
       clearTimeout( wikiRequestTimeout );
     }

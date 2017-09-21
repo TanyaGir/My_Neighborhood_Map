@@ -48,6 +48,10 @@
 
           <div id="wikipedia-links" style="margin-left: 2em">
             Wikipedia Articles Here!
+             <ul data-bind="foreach: wikipedia">
+          <li data-bind="text: $data">
+          </li>
+        </ul>
           </div>
         </div>
       </div>
