@@ -8,7 +8,7 @@
   <meta content="" name="author">
 
   <title>Neighborhood Map Project</title><!-- Bootstrap core CSS -->
-  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><!-- Custom styles for this template -->
+  <link href="js/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
 </head>
 
@@ -44,12 +44,10 @@
         <div class="wikipedia-container">
           <h4 id="wikipedia-header">Relevant Wikipedia Links</h4>
 
-
-          <div id="wikipedia-links" style="margin-left: 2em">
-            Wikipedia Articles Here!
              <ul data-bind="foreach: wikipedia">
-          <li data-bind="text: $data">
-          </li>
+          <a data-bind="attr: { href: url, title: details }">
+    Relevant Links
+          </a>
         </ul>
           </div>
         </div>
@@ -69,11 +67,11 @@
       <!-- /#page-content-wrapper -->
       <!-- /#wrapper -->
       <!-- Bootstrap core JavaScript -->
-      <script src="vendor/jquery/jquery.min.js">
+      <script src="js/vendor/jquery/jquery.min.js">
       </script> 
-      <script src="vendor/popper/popper.min.js">
+      <script src="js/vendor/popper/popper.min.js">
       </script> 
-      <script src="vendor/bootstrap/js/bootstrap.min.js">
+      <script src="js/vendor/bootstrap/js/bootstrap.min.js">
       </script> <!-- Menu Toggle Script -->
        
       <script>
@@ -89,8 +87,9 @@
       <script src="js/app.js">
       </script> <!-- Load google maps API -->
        
-      <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAwGjf_6JI5P9wGpb6ok9mB3Ni_0UJjJJY&v=3&callback=viewModel.initMap">
-      </script> 
+      <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyAwGjf_6JI5P9wGpb6ok9mB3Ni_0UJjJJY&v=3&callback=viewModel.initMap" async defer onerror="mapError()">
+      </script>
+
     </div>
   </div>
 </body>
