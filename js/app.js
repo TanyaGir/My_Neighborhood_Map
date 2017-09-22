@@ -54,45 +54,19 @@ var ViewModel = function() {
   this.markers = ko.observableArray( locations );
   this.filter = ko.observable( "" );
   this.wikipedia = ko.observableArray([]);
-  /*
-       this.filteredItems = ko.computed(function() {
-      var filter = self.filter().toLowerCase();
-      if (!filter) {
-        ko.utils.arrayForEach(self.myLocations(), function (item) {
-          item.marker.setVisible(true);
-        });
-        return self.myLocations();
-      } else {
-        return ko.utils.arrayFilter(self.myLocations(), function(item) {
-          // set all markers visible (false)
-          var result = (item.title.toLowerCase().search(filter) >= 0);
-          item.marker.setVisible(result);
-          return result;
-        });
-      }
-    });
-  */
-  // http://knockoutjs.com/documentation/click-binding.html#note-1-passing-a-current-item-as-a-parameter-to-your-handler-function
-  /*  this.doSomething = function(clickedLocation) {
-        //console.log("click");
-        self.currentlocation(clickedLocation);
-        self.populateInfoWindow(clickedLocation.marker);
-        //console.log(clickedLocation);
-       // console.log(this.populateInfoWindow);
-        // use location.marker to open the marker's info window
-      }; */
+
   this.search = function( value ) {
     // remove all the current locations, which removes them from the view
     if ( value ) {
-      //viewModel.myLocations.removeAll()
-      //this.mylocations().forEach
       // filter the markers with the Marker setVisible method
       for ( var x in locations ) {
         if ( locations[ x ].name.toLowerCase().indexOf( value.toLowerCase() ) >= 0 ) {
           self.myLocations()[ x ].visible( true );
+          self.myLocations()[ x ].marker.setVisible(true)
 
         } else {
           self.myLocations()[ x ].visible( false );
+          self.myLocations()[ x ].marker.setVisible(false)
         }
       }
     } else {
@@ -113,7 +87,6 @@ var ViewModel = function() {
       mapTypeControl: false
     } );
     infowindow = new google.maps.InfoWindow();
-    //self.myLocations = locations;
     // The following group uses the location array to create an array of markers on initialize.
     for ( var i = 0; i < locations.length; i++ ) {
       // Get the position from the location array.
@@ -128,12 +101,9 @@ var ViewModel = function() {
         id: i
       } );
       // Push the marker to our array of markers. 
-      //locations[i].marker = marker;
-      self.myLocations()[ i ].marker = marker;
-      // Create an onclick event to open an infowindow at each marker.
-      // Push the marker to our array of markers.
-      // markers.push(marker);
 
+      self.myLocations()[ i ].marker = marker;
+      
   }
   };
   this.populateInfoWindow = function( marker ) {
@@ -154,8 +124,6 @@ var ViewModel = function() {
     self.populateInfoWindow( place.marker );
     loadData(place)
     if ( place.name ) {
-      //map.setZoom(15); //Zoom map view
-      //map.panTo(place.latlng); // Pan to correct marker when list view item is clicked
       place.marker.setAnimation( google.maps.Animation.BOUNCE ); // Bounce marker when list view item is clicked
       //infowindow.open(map, place.marker); // Open info window on correct marker when list item is clicked
     }
@@ -184,7 +152,7 @@ function loadData(place) {
       for ( var i = 0; i < articleList.length; i++ ) {
         articleStr = articleList[ i ];
         var url = 'https://en.wikipedia.org/wiki/' + articleStr;
-        //$wikiElem.append( '<li><a href="' + url + '">' + articleStr + '</a></li>' );
+        
         viewModel.wikipedia.push(url);
       }
       clearTimeout( wikiRequestTimeout );
