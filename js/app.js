@@ -62,11 +62,11 @@ var ViewModel = function() {
       for ( var x in locations ) {
         if ( locations[ x ].name.toLowerCase().indexOf( value.toLowerCase() ) >= 0 ) {
           self.myLocations()[ x ].visible( true );
-          self.myLocations()[ x ].marker.setVisible(true)
+          self.myLocations()[ x ].marker.setVisible(true);
 
         } else {
           self.myLocations()[ x ].visible( false );
-          self.myLocations()[ x ].marker.setVisible(false)
+          self.myLocations()[ x ].marker.setVisible(false);
         }
       }
     } else {
@@ -122,7 +122,7 @@ var ViewModel = function() {
   this.listViewClick = function( place ) {
     self.currentlocation( place );
     self.populateInfoWindow( place.marker );
-    loadData(place)
+    loadData(place);
     if ( place.name ) {
       place.marker.setAnimation( google.maps.Animation.BOUNCE ); // Bounce marker when list view item is clicked
       //infowindow.open(map, place.marker); // Open info window on correct marker when list item is clicked
