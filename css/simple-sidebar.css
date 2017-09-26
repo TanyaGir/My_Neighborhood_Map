@@ -53,7 +53,7 @@ h6 {
     width: 50px;
     height: 40px;
     background-color: transparent;
-    margin: 1% 15%;
+    margin: 1% 50%;
     position: absolute;
 }
 
@@ -85,7 +85,7 @@ h6 {
 }
 
 #wrapper.toggled #sidebar-wrapper {
-    width: 350px;
+    width: 340px;
 }
 
 #page-content-wrapper {

@@ -109,7 +109,7 @@ var ViewModel = function() {
           markers.push(marker);
           // Create an onclick event to open an infowindow at each marker.
           marker.addListener('click', function() {
-            this.loadData(this);
+            self.populateInfoWindow(this);
           });
             // Push the marker to our array of markers. 
             self.myLocations()[i].marker = marker;
@@ -145,14 +145,14 @@ var ViewModel = function() {
         }, 2000);
     };
 };
-//console.log(self.myLocations);
-var viewModel = new ViewModel();
-viewModel.filter.subscribe(viewModel.search);
-ko.applyBindings(viewModel);
 
-var loadData = function (place) {
+window.onerror = function (errorMsg, url, lineNumber) {
+    alert('Google Maps Failed To Load');
+}
 
-    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + 'url' + '&format=json&callback=wikiCallback';
+this.loadData = function (place) {
+
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + place.name() + '&format=json&callback=wikiCallback';
     var wikiRequestTimeout = setTimeout(function() {
         $wikiElem.text("failed to get wikipedia resources");
     }, 8000);
@@ -173,3 +173,7 @@ var loadData = function (place) {
     });
     return false;
 };
+
+var viewModel = new ViewModel();
+viewModel.filter.subscribe(viewModel.search);
+ko.applyBindings(viewModel);
