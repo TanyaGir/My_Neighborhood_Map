@@ -119,7 +119,6 @@ var ViewModel = function() {
           // Create an onclick event to open an infowindow at each marker.
           marker.addListener('click', function() {
             self.populateInfoWindow(this);
-            loadData(this.place);
           });
             // Push the marker to our array of markers. 
             self.myLocations()[i].marker = marker;
