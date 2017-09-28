@@ -17,7 +17,7 @@ var locations = [ {
         lng: 4.8791
     }
 }, {
-    name: 'Mukiekgebouw Bimhuis',
+    name: 'Muziekgebouw Bimhuis',
     location: {
         lat: 52.378365,
         lng: 4.913179
@@ -94,7 +94,6 @@ var ViewModel = function() {
             mapTypeControl: false
         } );
 
-
         infowindow = new google.maps.InfoWindow();
         // The following group uses the location array to create an array of markers on initialize.
         for ( var i = 0; i < locations.length; i++ ) {
@@ -111,17 +110,14 @@ var ViewModel = function() {
             } );
             // Push the marker to our array of markers.
             markers.push( marker );
-            // Create an onclick event to open an infowindow at each marker.
-            marker.addListener( 'click', function() {
-                map.setZoom( 20 );
-                map.setCenter( marker.getPosition() );
-            } );
 
             // Push the marker to our array of markers. 
             self.myLocations()[ i ].marker = marker;
 
         }
     };
+
+
     this.populateInfoWindow = function( marker ) {
         // Check to make sure the infowindow is not already opened on this marker.
         if ( infowindow.marker != marker ) {
