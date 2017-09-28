@@ -1,51 +1,60 @@
 // Global variables
 var infowindow;
 var map;
+var marker;
 // Create a new blank array for all the listing markers.
 var markers = [];
 var locations = [{
-    name: 'Park Ave Penthouse',
+    name: 'Royal Palace Amsterdam',
     location: {
-        lat: 40.7713024,
-        lng: -73.9632393
+        lat: 52.373207,
+        lng: 4.891638
     },
 }, {
-    name: 'Chelsea Loft',
+    name: 'Concertgebouw Amsterdam',
     location: {
-        lat: 40.7444883,
-        lng: -73.9949465
+        lat: 52.3563,
+        lng: 4.8791
     }
 }, {
-    name: 'Union Square Open Floor Plan',
+    name: 'Mukiekgebouw Bimhuis',
     location: {
-        lat: 40.7347062,
-        lng: -73.9895759
+        lat: 52.378365,
+        lng: 4.913179
     }
 }, {
-    name: 'East Village Hip Studio',
+    name: 'Museumplein Amsterdam',
     location: {
-        lat: 40.7281777,
-        lng: -73.984377
+        lat: 52.3573,
+        lng: 4.8823
     }
 }, {
-    name: 'TriBeCa Artsy Bachelor Pad',
+    name: 'Amsterdam Conservatory',
     location: {
-        lat: 40.7195264,
-        lng: -74.0089934
+        lat: 52.3758,
+        lng: 4.9092
+    }
+},  {
+    name: 'University of Amsterdam',
+    location: {
+        lat: 52.3558,
+        lng: 4.9557
     }
 }, {
-    name: 'Chinatown Homey Space',
+    name: 'Rijksmuseum Amsterdam',
     location: {
-        lat: 40.7180628,
-        lng: -73.9961237
+        lat: 52.2136,
+        lng: 4.5307
     }
 }];
+
 var Location = function(data) {
     this.name = ko.observable(data.name);
     this.visible = ko.observable(true);
     this.location = ko.observable(data.location);
     this.marker = data.marker;
 };
+
 var ViewModel = function() {
     var self = this;
     this.myLocations = ko.observableArray([]);
@@ -59,7 +68,7 @@ var ViewModel = function() {
     url = ko.observable(this.currentlocation);
     details = ko.observable(url);
 
-    this.search = function(value) {
+  this.search = function(value) {
         // remove all the current locations, which removes them from the view
         if (value) {
             // filter the markers with the Marker setVisible method
@@ -84,8 +93,8 @@ var ViewModel = function() {
         // Constructor creates a new map - only center and zoom are required.
         map = new google.maps.Map(document.getElementById('map'), {
             center: {
-                lat: 40.7413549,
-                lng: -73.9980244
+                lat: 52.371807,
+                lng: 4.896029
             },
             zoom: 13,
             mapTypeControl: false
@@ -110,6 +119,7 @@ var ViewModel = function() {
           // Create an onclick event to open an infowindow at each marker.
           marker.addListener('click', function() {
             self.populateInfoWindow(this);
+            loadData(this.place);
           });
             // Push the marker to our array of markers. 
             self.myLocations()[i].marker = marker;
@@ -146,20 +156,24 @@ var ViewModel = function() {
     };
 };
 
-window.onerror = function (errorMsg, url, lineNumber) {
+window.mapError = function (errorMsg, url, lineNumber) {
     alert('Google Maps Failed To Load');
-}
+};
 
-this.loadData = function (place) {
+var loadData = function (place) {
 
     var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + place.name() + '&format=json&callback=wikiCallback';
+    
     var wikiRequestTimeout = setTimeout(function() {
-        $wikiElem.text("failed to get wikipedia resources");
-    }, 8000);
+        // use a data binding instead of jQuery
+        // http://knockoutjs.com/documentation/html-binding.html
+        alert("failed to get wikipedia resources");
+    }, 4000);
     $.ajax({
         url: wikiUrl,
         dataType: "jsonp", // jsonp: "callback",
         success: function(response) {
+            viewModel.wikipedia([]);
             console.log(response);
             var articleList = response[1];
             for (var i = 0; i < articleList.length; i++) {
@@ -171,7 +185,6 @@ this.loadData = function (place) {
             clearTimeout(wikiRequestTimeout);
         }
     });
-    return false;
 };
 
 var viewModel = new ViewModel();
