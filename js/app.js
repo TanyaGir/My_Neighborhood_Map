@@ -111,6 +111,10 @@ var ViewModel = function() {
             // Push the marker to our array of markers.
             markers.push( marker );
 
+            //marker.addListener( 'click', function() {
+            //    self.listViewClick( this );
+            //} );
+
             // Push the marker to our array of markers. 
             self.myLocations()[ i ].marker = marker;
 
@@ -127,9 +131,6 @@ var ViewModel = function() {
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener( 'closeclick', function() {
                 infowindow.marker = null;
-                marker.addListener( 'click', function() {
-                    self.populateInfoWindow( this );
-                } );
             } );
         }
     };

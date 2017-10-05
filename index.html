@@ -14,14 +14,15 @@
 
 <body>
   <div id="wrapper" class = "toggled">
+  <div id="wrapperSB" class = "toggledSB">
     <!-- Sidebar -->
 
-
     <div id="sidebar-wrapper">
+
       <div class="sidebar-nav" style="margin-left: 2em">
+
         <p>
         </p>
-
 
         <h1>Locations</h1>
         <p></p>
@@ -43,7 +44,7 @@
 
         <div class="wikipedia-container">
           <h4 id="wikipedia-header">Relevant Wikipedia Links</h4>
-          <h9 id="wikipedia-header">Click on Location Names</h9>
+          <p>Click on Location Names</p>
 
              <ul data-bind="foreach: wikipedia">
           <a data-bind="attr: { href: url, title: details }">
@@ -53,6 +54,7 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
     <!-- /#sidebar-wrapper -->
     <!-- Page Content -->
@@ -78,8 +80,9 @@
       <script>
        $("#menu-toggle").click(function(e) {
            e.preventDefault();
-           $("#wrapper").toggleClass("toggled");
+           $("#wrapper").toggleClass("toggled");           
        });
+
       </script> 
       <script src='js/lib/knockout-3.2.0.js'>
       </script> 
