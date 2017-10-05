@@ -47,7 +47,7 @@
           <p>Click on Location Names</p>
 
              <ul data-bind="foreach: wikipedia">
-          <a data-bind="attr: { href: url, title: details }">
+          <a data-bind="attr: { href: $data, title: $data }">
     Relevant Links
           </a>
         </ul>

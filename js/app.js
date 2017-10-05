@@ -111,8 +111,8 @@ var ViewModel = function() {
             // Push the marker to our array of markers.
             markers.push( marker );
 
-            //marker.addListener( 'click', function() {
-            //    self.listViewClick( this );
+            marker.addListener( 'click', self.populateInfoWindow)
+            //    self.populateInfoWindow( this );
             //} );
 
             // Push the marker to our array of markers. 
@@ -122,11 +122,18 @@ var ViewModel = function() {
     };
 
 
-    this.populateInfoWindow = function( marker ) {
+    this.populateInfoWindow = function() {
+        var marker = this;
+        loadData(marker.title);
         // Check to make sure the infowindow is not already opened on this marker.
         if ( infowindow.marker != marker ) {
             infowindow.marker = marker;
             infowindow.setContent( '<div>' + marker.title + '</div>' );
+            marker.setAnimation( google.maps.Animation.BOUNCE ); // Bounce marker when list view item is clicked
+            //infowindow.open(map, place.marker); // Open info window on correct marker when list item is clicked
+        setTimeout( function() {
+           marker.setAnimation( null ); // End animation on marker after 2 seconds
+        }, 2000 );
             infowindow.open( map, marker );
             // Make sure the marker property is cleared if the infowindow is closed.
             infowindow.addListener( 'closeclick', function() {
@@ -136,16 +143,7 @@ var ViewModel = function() {
     };
     //Click on item in list view
     this.listViewClick = function( place ) {
-        self.currentlocation( place );
-        self.populateInfoWindow( place.marker );
-        loadData( place );
-        if ( place.name ) {
-            place.marker.setAnimation( google.maps.Animation.BOUNCE ); // Bounce marker when list view item is clicked
-            //infowindow.open(map, place.marker); // Open info window on correct marker when list item is clicked
-        }
-        setTimeout( function() {
-            place.marker.setAnimation( null ); // End animation on marker after 2 seconds
-        }, 2000 );
+        google.maps.event.trigger(place.marker,'click');
     };
 };
 
@@ -153,9 +151,9 @@ window.mapError = function( errorMsg, url, lineNumber ) {
     alert( 'Google Maps Failed To Load' );
 };
 
-var loadData = function( place ) {
+var loadData = function( name ) {
 
-    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + place.name() + '&format=json&callback=wikiCallback';
+    var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + name + '&format=json&callback=wikiCallback';
 
     var wikiRequestTimeout = setTimeout( function() {
         // use a data binding instead of jQuery
