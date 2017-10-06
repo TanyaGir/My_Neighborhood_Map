@@ -82,6 +82,7 @@ var ViewModel = function() {
                 if ( locations[ y ].name.toLowerCase()
                     .indexOf( value.toLowerCase() ) >= 0 )
                     self.myLocations()[ y ].visible( true );
+                    self.myLocations()[ y ].marker.setVisible( true );
             }
         }
     };
