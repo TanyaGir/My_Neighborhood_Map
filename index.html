@@ -11,7 +11,6 @@
 </head>
 <body>
   <div class="toggled" id="wrapper">
-    <div class="toggledSB" id="wrapperSB">
       <!-- Sidebar -->
       <div id="sidebar-wrapper">
         <div class="sidebar-nav" style="margin-left: 2em">
@@ -31,7 +30,7 @@
             <p>Click on Location Names</p>
             <ul data-bind="foreach: wikipedia">
               <li>
-                <a data-bind="attr: { href: $data, title: $data }">Relevant Links</a>
+                <a data-bind="attr: { href: $data, title: $data}">Relevant Links</a>
               </li>
             </ul>
           </div>
@@ -54,13 +53,7 @@
     <script src="js/vendor/bootstrap/js/bootstrap.min.js">
     </script> <!-- Menu Toggle Script -->
      
-    <script>
-           $("#menu-toggle").click(function(e) {
-               e.preventDefault();
-               $("#wrapper").toggleClass("toggled");           
-           });
 
-    </script> 
     <script src='js/lib/knockout-3.2.0.js'>
     </script> 
     <script src='js/lib/jquery.min.js'>

@@ -154,10 +154,6 @@ var loadData = function( name ) {
 
     var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + name + '&format=json&callback=wikiCallback';
 
-    //var wikiRequestTimeout = setTimeout( function() {
-
-        //alert( "failed to get wikipedia resources" );
-    //}, 4000 );
     $.ajax( {
         url: wikiUrl,
         dataType: "jsonp", // jsonp: "callback",
@@ -171,13 +167,16 @@ var loadData = function( name ) {
 
                 viewModel.wikipedia.push( url );
             }
-            //clearTimeout( wikiRequestTimeout );
         }
     }).fail(function (jqXHR, textStatus) {
         alert( "failed to get wikipedia resources" );
     });
 };
 
+           $("#menu-toggle").click(function(e) {
+               e.preventDefault();
+               $("#wrapper").toggleClass("toggled");           
+           });
 var viewModel = new ViewModel();
 viewModel.filter.subscribe( viewModel.search );
 ko.applyBindings( viewModel );
