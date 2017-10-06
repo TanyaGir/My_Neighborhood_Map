@@ -154,11 +154,10 @@ var loadData = function( name ) {
 
     var wikiUrl = 'https://en.wikipedia.org/w/api.php?action=opensearch&search=' + name + '&format=json&callback=wikiCallback';
 
-    var wikiRequestTimeout = setTimeout( function() {
-        // use a data binding instead of jQuery
-        // http://knockoutjs.com/documentation/html-binding.html
-        alert( "failed to get wikipedia resources" );
-    }, 4000 );
+    //var wikiRequestTimeout = setTimeout( function() {
+
+        //alert( "failed to get wikipedia resources" );
+    //}, 4000 );
     $.ajax( {
         url: wikiUrl,
         dataType: "jsonp", // jsonp: "callback",
@@ -172,9 +171,11 @@ var loadData = function( name ) {
 
                 viewModel.wikipedia.push( url );
             }
-            clearTimeout( wikiRequestTimeout );
+            //clearTimeout( wikiRequestTimeout );
         }
-    } );
+    }).fail(function (jqXHR, textStatus) {
+        alert( "failed to get wikipedia resources" );
+    });
 };
 
 var viewModel = new ViewModel();

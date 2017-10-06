@@ -1,77 +1,48 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="" name="description">
   <meta content="" name="author">
-
   <title>Neighborhood Map Project</title><!-- Bootstrap core CSS -->
   <link href="js/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"><!-- Custom styles for this template -->
   <link href="css/simple-sidebar.css" rel="stylesheet">
 </head>
-
 <body>
   <div class="toggled" id="wrapper">
     <div class="toggledSB" id="wrapperSB">
       <!-- Sidebar -->
-
-
       <div id="sidebar-wrapper">
         <div class="sidebar-nav" style="margin-left: 2em">
-          <p>
-          </p>
-
-
+          <p></p>
           <h1>Locations</h1>
-
-
-          <p>
-          </p>
-
-
+          <p></p>
           <form>
             <input data-bind="textInput: filter" id="street" placeholder="Search...">
           </form>
-
           <hr>
-
-
           <ul data-bind="foreach: myLocations">
-            <li data-bind="text: name, visible: visible, click: $root.listViewClick">
-            </li>
+            <li data-bind="text: name, visible: visible, click: $root.listViewClick"></li>
           </ul>
-
           <hr>
-
-
           <div class="wikipedia-container">
             <h4 id="wikipedia-header">Relevant Wikipedia Links</h4>
-
-
             <p>Click on Location Names</p>
-
-
             <ul data-bind="foreach: wikipedia">
+              <li>
+                <a data-bind="attr: { href: $data, title: $data }">Relevant Links</a>
+              </li>
             </ul>
-            <a data-bind="attr: { href: $data, title: $data }">Relevant Links</a>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <!-- /#sidebar-wrapper -->
+  </div><!-- /#sidebar-wrapper -->
   <!-- Page Content -->
-
-
   <div id="page-content-wrapper">
-    <div id="map">
-    </div>
-    <a class="btn btn-secondary" href="#menu-toggle" id="menu-toggle">&#9776;</a>
+    <div id="map"></div><a class="btn btn-secondary" href="#menu-toggle" id="menu-toggle">&#9776;</a>
   </div>
-
-
   <div class="container-fluid">
     <!-- /#page-content-wrapper -->
     <!-- /#wrapper -->
@@ -84,10 +55,10 @@
     </script> <!-- Menu Toggle Script -->
      
     <script>
-         $("#menu-toggle").click(function(e) {
-             e.preventDefault();
-             $("#wrapper").toggleClass("toggled");           
-         });
+           $("#menu-toggle").click(function(e) {
+               e.preventDefault();
+               $("#wrapper").toggleClass("toggled");           
+           });
 
     </script> 
     <script src='js/lib/knockout-3.2.0.js'>
@@ -97,7 +68,7 @@
     <script src="js/app.js">
     </script> <!-- Load google maps API -->
      
-    <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=AIzaSyAwGjf_6JI5P9wGpb6ok9mB3Ni_0UJjJJY&v=3&callback=viewModel.initMap" async defer onerror="mapError()">
+    <script async defer onerror="mapError()" src="https://maps.googleapis.com/maps/api/js?libraries=geometry,places&key=AIzaSyAwGjf_6JI5P9wGpb6ok9mB3Ni_0UJjJJY&v=3&callback=viewModel.initMap">
     </script>
   </div>
 </body>
