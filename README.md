@@ -15,7 +15,7 @@ Udacity project with knockout JS framework and google maps API.
 * Points of Interest markers can be filtered via earch filter
 * Page is responsive.  Navbar is hidden and toggleable with hamburger.
 * Page is built using Knockout JS
-* Search filter gives a wikipedia link for the chosen street.
+* Markers and location list show wikipedia links for the chosen place when clicked.
 
 ## Attributions:
 * [Google Maps API](https://developers.google.com/maps/)
